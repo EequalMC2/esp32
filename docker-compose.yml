@@ -1,0 +1,42 @@
+
+# // running spesific services
+# sudo docker compose run --rm esp32
+# sudo docker exec -it esp32_dev bash
+# sudo docker compose build
+# IDF_TOOLS_PATH=/workspace/.espressif
+
+
+services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+      args:
+        USER_ID: "1000"
+        GROUP_ID: "1000"
+        USER_NAME: "murat"
+    image: dev/base:latest
+
+  esp32-dev:  
+    build:
+      context: .
+      dockerfile: Dockerfile.esp32
+      args:
+        USER_ID: "1000"
+        GROUP_ID: "1000"
+        USER_NAME: "murat"
+    hostname: esp32-dev
+    volumes:
+      - /home/parallels/Desktop/work/idf_work:/workspace
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+    environment:
+      - HOME=/workspace
+    image: dev/base:latest
+
+
+
+

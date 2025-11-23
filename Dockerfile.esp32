@@ -1,0 +1,16 @@
+# ARM64 Ubuntu base
+FROM dev/base:latest
+
+# Switch to created user
+USER ${USER_NAME}
+
+# Create user matching host
+RUN apt-get update && \
+    apt-get install -y libusb-1.0-0 libusb-1.0-0-dev  python3.10-venv && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set working directory (mount your project volume here)
+WORKDIR /workspace
+
+# Default command
+CMD ["/bin/bash"]
